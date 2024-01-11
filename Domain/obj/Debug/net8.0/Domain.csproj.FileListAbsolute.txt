@@ -9,3 +9,4 @@
 /Users/hmrguez/Programming/Sprout/Domain/obj/Debug/net8.0/refint/Domain.dll
 /Users/hmrguez/Programming/Sprout/Domain/obj/Debug/net8.0/Domain.pdb
 /Users/hmrguez/Programming/Sprout/Domain/obj/Debug/net8.0/ref/Domain.dll
+/Users/hmrguez/Programming/Sprout/Domain/obj/Debug/net8.0/Domain.sourcelink.json
