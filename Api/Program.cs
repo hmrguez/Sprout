@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Api;
 using Api.Controllers;
+using Application;
 using Application.Services;
 using Contracts.Authentication;
 
@@ -8,7 +9,7 @@ var builder = WebApplication.CreateSlimBuilder(args);
 
 builder.AddJsonSerializers();
 
-builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+builder.Services.AddApplication();
 
 var app = builder.Build();
 
