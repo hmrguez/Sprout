@@ -9,7 +9,6 @@ public static class JsonSerializerBuilder
     {
         builder.Services.ConfigureHttpJsonOptions(options =>
         {
-            options.SerializerOptions.TypeInfoResolverChain.Insert(0, AppJsonSerializerContext.Default);
             options.SerializerOptions.TypeInfoResolverChain.Insert(0, RegisterRequestSerializerContext.Default);
             options.SerializerOptions.TypeInfoResolverChain.Insert(0, LoginRequestSerializerContext.Default);
             options.SerializerOptions.TypeInfoResolverChain.Insert(0, AuthenticationResponseSerializerContext.Default);
