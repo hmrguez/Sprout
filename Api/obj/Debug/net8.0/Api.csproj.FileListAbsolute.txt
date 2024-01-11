@@ -33,3 +33,4 @@
 /Users/hmrguez/Programming/Sprout/Api/bin/Debug/net8.0/Domain.pdb
 /Users/hmrguez/Programming/Sprout/Api/obj/Debug/net8.0/Api.csproj.AssemblyReference.cache
 /Users/hmrguez/Programming/Sprout/Api/obj/Debug/net8.0/Api.csproj.CopyComplete
+/Users/hmrguez/Programming/Sprout/Api/obj/Debug/net8.0/Api.sourcelink.json
