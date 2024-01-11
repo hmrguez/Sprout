@@ -1,11 +1,14 @@
 using System.Text.Json.Serialization;
 using Api;
 using Api.Controllers;
+using Application.Services;
 using Contracts.Authentication;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 
 builder.AddJsonSerializers();
+
+builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
 var app = builder.Build();
 
