@@ -2,17 +2,19 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Application.Common.Interfaces.Authentication;
+using Application.Common.Interfaces.Services;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
 namespace Infrastructure.Authentication;
 
-public class JwtTokenGenerator: IJwtTokenGenerator
+public class JwtTokenGenerator(IDateTimeProvider dateTimeProvider, IOptions<JwtSettings> jwtSettings) : IJwtTokenGenerator
 {
     public string GenerateToken(Guid userId, string username, string email)
     {
         var signingCredentials = new SigningCredentials(
-            new SymmetricSecurityKey(Encoding.UTF8.GetBytes("my-ultra-duper-super-secret-key-that-must-be-as-large-as-it-can-possibly-be")),
+            new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Value.Secret)),
             SecurityAlgorithms.HmacSha256Signature);
 
         var claims = new[]
@@ -24,12 +26,13 @@ public class JwtTokenGenerator: IJwtTokenGenerator
         };
         
          var securityToken = new JwtSecurityToken(
-             issuer: "Sprout",
+             issuer: jwtSettings.Value.Issuer,
+             audience: jwtSettings.Value.Audience,
              claims: claims,
-             expires: DateTime.UtcNow.AddDays( 1),
+             expires: dateTimeProvider.UtcNow.AddMinutes(jwtSettings.Value.ExpiryMinutes),
              signingCredentials: signingCredentials
          );
 
-         return new JwtSecurityTokenHandler().WriteToken(securityToken );
+         return new JwtSecurityTokenHandler().WriteToken(securityToken);
     }
 }
