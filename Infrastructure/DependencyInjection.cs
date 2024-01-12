@@ -1,8 +1,11 @@
 using Application.Common.Interfaces.Authentication;
+using Application.Common.Interfaces.Persistence;
 using Application.Common.Interfaces.Services;
 using Application.Services;
 using Infrastructure.Authentication;
+using Infrastructure.Persistence;
 using Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,8 +18,15 @@ public static class DependencyInjection
         ConfigurationManager builderConfiguration)
     {
         services.Configure<JwtSettings>(builderConfiguration.GetSection(JwtSettings.SectionName));
+        
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(builderConfiguration.GetConnectionString("DefaultConnection")));
+        
         services.AddSingleton<IJwtTokenGenerator, JwtTokenGenerator>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
+        services.AddScoped<IUserRepository, UserRepository>();
+        
         return services;
     }
 }
