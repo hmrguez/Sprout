@@ -1,11 +1,13 @@
 using Api;
 using Api.Controllers;
 using Application;
+using Infrastructure;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 {
     builder.AddJsonSerializers();
     builder.Services.AddApplication();
+    builder.Services.AddInfrastructure();
 }
 
 var app = builder.Build();
