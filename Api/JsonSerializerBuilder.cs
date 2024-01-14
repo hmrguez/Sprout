@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Api.Middleware;
 using Contracts.Authentication;
 
 namespace Api;
@@ -12,6 +13,7 @@ public static class JsonSerializerBuilder
             options.SerializerOptions.TypeInfoResolverChain.Insert(0, RegisterRequestSerializerContext.Default);
             options.SerializerOptions.TypeInfoResolverChain.Insert(0, LoginRequestSerializerContext.Default);
             options.SerializerOptions.TypeInfoResolverChain.Insert(0, AuthenticationResponseSerializerContext.Default);
+            options.SerializerOptions.TypeInfoResolverChain.Insert(0, ErrorResponseSerializerContext.Default);
         });
     }
 }

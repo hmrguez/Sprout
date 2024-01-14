@@ -1,5 +1,6 @@
 using Api;
 using Api.Controllers;
+using Api.Middleware;
 using Application;
 using Infrastructure;
 
@@ -11,6 +12,9 @@ var builder = WebApplication.CreateSlimBuilder(args);
 }
 
 var app = builder.Build();
+{
+    app.UseMiddleware<ErrorHandlingMiddleware>();
+}
 
 var authApi = app.MapGroup("/auth");
 {
