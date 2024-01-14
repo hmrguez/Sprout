@@ -1,21 +1,21 @@
-using Application.Common.Errors;
 using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
 using Domain.Entities;
-using FluentResults;
+using Domain.Errors;
+using ErrorOr;
 
 namespace Application.Services;
 
 public class AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
     : IAuthenticationService
 {
-    public Result<AuthenticationResult> Register(string username, string email, string password)
+    public ErrorOr<AuthenticationResult> Register(string username, string email, string password)
     {
         if (userRepository.GetUserByUsername(username) != null)
-            return Result.Fail<AuthenticationResult>(new[] { new DuplicateUsernameError() });
+            return Errors.Auth.DuplicatedUsername;
 
         if (userRepository.GetUserByEmail(email) != null)
-            return Result.Fail<AuthenticationResult>(new[] { new DuplicateEmailError() });
+            return Errors.Auth.DuplicatedEmail;
 
         var user = new User()
         {
@@ -30,13 +30,13 @@ public class AuthenticationService(IJwtTokenGenerator jwtTokenGenerator, IUserRe
         return new AuthenticationResult(user.Id, username, email, token);
     }
 
-    public AuthenticationResult Login(string username, string password)
+    public ErrorOr<AuthenticationResult> Login(string username, string password)
     {
         if (userRepository.GetUserByUsername(username) is not { } user)
-            throw new Exception("User not found");
+            return Errors.Auth.UserNotFound;
 
         if (user.Password != password)
-            throw new Exception("Invalid password");
+            return Errors.Auth.WrongPassword;
 
         var token = jwtTokenGenerator.GenerateToken(user.Id, username, user.Email);
         return new AuthenticationResult(user.Id, user.Username, user.Email, token);
