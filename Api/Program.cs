@@ -7,6 +7,7 @@ using Infrastructure;
 var builder = WebApplication.CreateSlimBuilder(args);
 {
     builder.AddJsonSerializers();
+    builder.Services.AddPresentation();
     builder.Services.AddApplication();
     builder.Services.AddInfrastructure(builder.Configuration);
 }
