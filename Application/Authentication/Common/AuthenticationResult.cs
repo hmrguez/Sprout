@@ -1,4 +1,4 @@
-namespace Application.Services;
+namespace Application.Services.Authentication.Common;
 
 public record AuthenticationResult(
     Guid Id,

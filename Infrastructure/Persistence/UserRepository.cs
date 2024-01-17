@@ -5,26 +5,20 @@ namespace Infrastructure.Persistence;
 
 public class UserRepository(): IUserRepository
 {
+    public List<User> Users { get; set; } = new List<User>();
+    
     public User? GetUserByEmail(string email)
     {
-        // throw new Exception("This is a nd wqewer");
-        
-        return new()
-        {
-
-        };
-        // return context.Users.SingleOrDefault(user => user.Email == email);
+        return Users.FirstOrDefault(x => x.Email == email);
     }
 
     public User? GetUserByUsername(string username)
     {
-        return new User();
-        // return context.Users.SingleOrDefault(user => user.Email == username);
+        return Users.FirstOrDefault(x => x.Username == username);
     }
 
     public void Add(User user)
     {
-        // context.Users.Add(user);
-        // context.SaveChanges();
+        Users.Add(user);
     }
 }

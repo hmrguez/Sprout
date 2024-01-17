@@ -14,4 +14,8 @@
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="Mapster" Version="7.4.1-pre01" />
+    </ItemGroup>
+
 </Project>
