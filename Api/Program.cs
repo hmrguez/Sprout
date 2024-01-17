@@ -6,21 +6,18 @@ using Infrastructure;
 
 var builder = WebApplication.CreateSlimBuilder(args);
 {
-    builder.AddJsonSerializers();
-    builder.Services.AddPresentation();
-    builder.Services.AddApplication();
-    builder.Services.AddInfrastructure(builder.Configuration);
+    builder.Services.AddControllers();
+    
+    builder.Services
+        .AddPresentation()
+        .AddApplication()
+        .AddInfrastructure(builder.Configuration);
 }
 
 var app = builder.Build();
 {
     app.UseMiddleware<ErrorHandlingMiddleware>();
-}
-
-var authApi = app.MapGroup("/auth");
-{
-    authApi.MapPost("/register", AuthenticationController.Register);
-    authApi.MapPost("/login", AuthenticationController.Login);
+    app.MapControllers();
 }
 
 app.Run();

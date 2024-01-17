@@ -4,29 +4,27 @@ using Application.Authentication.Queries.Login;
 using Contracts.Authentication;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
-public static class AuthenticationController
+[Route("auth")]
+public class AuthenticationController(ISender sender, IMapper mapper): ApiController
 { 
-    public static async Task<IResult> Register(RegisterRequest request, ISender sender, IMapper mapper)
+    
+    [HttpPost("register")]
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
         var command = mapper.Map<RegisterCommand>(request);
         var result = await sender.Send(command);
-        
-        return result.MatchFirst<IResult>(
-            authResult => Results.Ok(mapper.Map<AuthenticationResult>(authResult)),
-            error => Results.Conflict(error.Description));
+        return result.MatchFirst<IActionResult>(authResult => Ok(mapper.Map<AuthenticationResult>(authResult)), Error);
     }
 
-    public static async Task<IResult> Login(LoginRequest request, ISender sender, IMapper mapper)
+    [HttpPost("login")]
+    public async Task<IActionResult> Login(LoginRequest request)
     {
         var query = mapper.Map<LoginQuery>(request);
         var result = await sender.Send(query);
-        
-        return result.MatchFirst<IResult>(
-            authResult => Results.Ok(mapper.Map<AuthenticationResult>(authResult)),
-            error => Results.Conflict(error.Description));
-        
+        return result.MatchFirst<IActionResult>(authResult => Ok(mapper.Map<AuthenticationResult>(authResult)), Error);
     }
 }

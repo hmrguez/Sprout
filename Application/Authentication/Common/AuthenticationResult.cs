@@ -7,9 +7,3 @@ public record AuthenticationResult(
     string Username,
     string Email,
     string Token);
-
-[JsonSerializable(typeof(AuthenticationResult[]))]
-public partial class AuthenticationResultSerializerContext : JsonSerializerContext
-{
-}
-

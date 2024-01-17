@@ -4,7 +4,3 @@ namespace Contracts.Authentication;
 
 public record LoginRequest(string Username, string Password);
 
-[JsonSerializable(typeof(LoginRequest[]))]
-public partial class LoginRequestSerializerContext : JsonSerializerContext
-{
-}
