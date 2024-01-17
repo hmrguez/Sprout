@@ -12,6 +12,8 @@ public class LoginQueryHandler(IUserRepository userRepository, IJwtTokenGenerato
 {
     public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
     {
+        await Task.CompletedTask;
+        
         if (userRepository.GetUserByUsername(query.Username) is not { } user)
             return Errors.Auth.UserNotFound;
 

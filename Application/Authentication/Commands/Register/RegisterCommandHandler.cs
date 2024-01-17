@@ -14,6 +14,8 @@ public class RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGen
     
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
+        await Task.CompletedTask;
+        
         if (userRepository.GetUserByUsername(command.Username) != null)
             return Errors.Auth.DuplicatedUsername;
 
