@@ -1,8 +1,10 @@
 using Application.Authentication.Common;
 using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
-using Domain.Entities;
+using Domain;
 using Domain.Errors;
+using Domain.User;
+using Domain.User.ValueObjects;
 using ErrorOr;
 using MediatR;
 
@@ -22,7 +24,7 @@ public class RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGen
         if (userRepository.GetUserByEmail(command.Email) != null)
             return Errors.Auth.DuplicatedEmail;
 
-        var user = new User()
+        var user = new User(UserId.New())
         {
             Username = command.Username,
             Email = command.Email,
@@ -31,7 +33,7 @@ public class RegisterCommandHandler(IUserRepository userRepository, IJwtTokenGen
 
         userRepository.Add(user);
 
-        var token = jwtTokenGenerator.GenerateToken(user.Id, command.Username, command.Email);
-        return new AuthenticationResult(user.Id, command.Username, command.Email, token);
+        var token = jwtTokenGenerator.GenerateToken(user.Id.Value, command.Username, command.Email);
+        return new AuthenticationResult(user.Id.Value, command.Username, command.Email, token);
     }
 }

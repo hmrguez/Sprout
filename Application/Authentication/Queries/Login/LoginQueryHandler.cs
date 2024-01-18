@@ -20,7 +20,7 @@ public class LoginQueryHandler(IUserRepository userRepository, IJwtTokenGenerato
         if (user.Password != query.Password)
             return Errors.Auth.WrongPassword;
 
-        var token = jwtTokenGenerator.GenerateToken(user.Id, query.Username, user.Email);
-        return new AuthenticationResult(user.Id, user.Username, user.Email, token);
+        var token = jwtTokenGenerator.GenerateToken(user.Id.Value, query.Username, user.Email);
+        return new AuthenticationResult(user.Id.Value, user.Username, user.Email, token);
     }
 }

@@ -1,4 +1,5 @@
-using Domain.Entities;
+using Domain;
+using Domain.User;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence
