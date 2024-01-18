@@ -1,8 +1,10 @@
 using ErrorOr;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
+[Authorize]
 public abstract class ApiController: ControllerBase
 {
     protected IActionResult Error(Error error)
