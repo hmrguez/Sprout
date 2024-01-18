@@ -4,8 +4,10 @@ using Application.Common.Interfaces.Persistence;
 using Application.Common.Interfaces.Services;
 using Infrastructure.Authentication;
 using Infrastructure.Persistence;
+using Infrastructure.Persistence.Repository;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -20,6 +22,7 @@ public static class DependencyInjection
         ConfigurationManager builderConfiguration)
     {
         services.AddAuth(builderConfiguration);
+        services.AddDbContext(builderConfiguration);
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
         services.AddSingleton<IUserRepository, UserRepository>();
         
@@ -45,6 +48,14 @@ public static class DependencyInjection
                 ValidAudience = jwtSettings.Audience,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret))
             });
+
+        return services;
+    }
+    
+    private static IServiceCollection AddDbContext(this IServiceCollection services, ConfigurationManager configuration)
+    {
+        services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
         return services;
     }
