@@ -22,14 +22,14 @@ public class UserConfiguration: IEntityTypeConfiguration<User>
             .HasConversion(
                 id => id.Value,
                 value => new UserId(value));
-
+        
         builder.Property(u => u.CreatorId)
             .ValueGeneratedNever()
-            .HasConversion(id => id!.Value , value => new CreatorId(value));
+            .HasConversion(id => id.Value, value => new CreatorId(value));
 
         builder.Property(u => u.StudentId)
             .ValueGeneratedNever()
-            .HasConversion(id => id!.Value, value => new StudentId(value));
+            .HasConversion(id => id.Value, value => new StudentId(value));
         
         builder.Property(u => u.Id).ValueGeneratedNever();
         builder.Property(u => u.Username).IsRequired();

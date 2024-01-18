@@ -10,6 +10,6 @@ public class User(UserId id) : AggregateRoot<UserId>(id)
     public string Password { get; set; } = null!;
     public string Email { get; set; } = null!;
 
-    public StudentId? StudentId { get; set; }
-    public CreatorId? CreatorId { get; set; }
+    public StudentId StudentId { get; set; } = null!;
+    public CreatorId CreatorId { get; set; } = null!;
 }
